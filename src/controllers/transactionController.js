@@ -14,6 +14,9 @@ const B2BTransaction = async (req,res,next)=> {
  const url = process.env.PAYMENT_URL
  let responseData;
  console.log(token)
+ const date = new Date()
+
+ let {Initiator, CommandID, SecurityCredential, SenderIdentifierType, RecieverIdentifierType, Amount, PartyA, PartyB, AccountReference, Requester, Remarks, QueueTimeOutURL, ResultURL} = req.body;
 
  let request = unirest('POST', `${url}`)
  .headers({
@@ -22,25 +25,43 @@ const B2BTransaction = async (req,res,next)=> {
  
  })
  .send({
-    "Initiator": "testapi",
-    "SecurityCredential": "ZqOhRJr6yMWc5vIVuRBOkgk0b9juHygbS+mP4NvGDhcPC8/V9Bv+/0a4tB08TAJYIFkP6RUo9/a66fPJLfluBm6OBCRc4cZ8U1MGBIZbdY8n/MCwH62J8Qa4cgtpw6DCQF23efp7sEnrWoYtihGECphw5DnUumrE2zHau01uRYFZLHw5T7McD860iSEeQYLzwzpnqaSI4dRB0an0MnHSKSKq1kgVOrqF70Lo4dhx47z9HdNidqvD5z8EK6SAgMWAf+hoG6vfY/X15ytng4Kb3LnMY5Qaz8wRN8vXaMZaJq2ykNJjxYyJuKNSHCh0FIjMQZ80F7i01504UULR2rAZdA==",
-    "CommandID": "BusinessPayBill",
-    "SenderIdentifierType": "4",
-    "RecieverIdentifierType": 4,
-    "Amount": 239,
-    "PartyA": 600984,
-    "PartyB": "000000",
-    "AccountReference": "353353",
-    "Requester": "254700000000",
-    "Remarks": "ok",
-    "QueueTimeOutURL": "https://mydomain.com/b2b/queue/",
-    "ResultURL": "https://mydomain.com/b2b/result/" 
+     Initiator: Initiator,
+     SecurityCredential: process.env.SECURITY_CREDENTIALS,
+     CommandID: CommandID,
+     SenderIdentifierType: SenderIdentifierType,
+     RecieverIdentifierType: RecieverIdentifierType,
+     Amount: Amount,
+     PartyA: PartyA,
+     PartyB: PartyB,
+     AccountReference: AccountReference,
+     Requester: Requester,
+     Remarks: Remarks,
+     QueueTimeOutURL: QueueTimeOutURL,
+     ResultURL: ResultURL 
  
  })
  
  .end(response => {
       if (response.error) throw new Error(response.error);
       res.status(200).json(response.raw_body)
+     
+      console.log(`Transaction Carried out at ${date}`)
+      console.log("----------------------------------------------------")
+      console.log(`Transaction Details Inputted are as follows:`)
+      console.log(`Initiator: ${Initiator}`)
+      console.log(`CommandID: ${CommandID}`)
+      console.log(`SenderIdentifierType: ${SenderIdentifierType}`)
+      console.log(`ReecieverIdentifierType: ${RecieverIdentifierType}`)
+      console.log(`Amount: ${Amount}`)
+      console.log(`PartyA: ${PartyA}`)
+      console.log(`PartyB: ${PartyB}`)
+      console.log(`AccountReference: ${AccountReference}`)
+      console.log(`Requester: ${Requester}`)
+      console.log(`Remarks: ${Remarks}`)
+      console.log(`QueTimeOutURL: ${QueueTimeOutURL}`)
+      console.log(`ResultURL: ${ResultURL}`)
+      console.log("-----------------------------------------------------")
+
 
       console.log("================Intitiated Mpesa Business to Business Txn==================")
       console.log(response.raw_body);

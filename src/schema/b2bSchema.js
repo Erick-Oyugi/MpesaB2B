@@ -10,6 +10,10 @@ const b2bSchema = Joi.object({
     Amount: Joi.string(),
     PartyA: Joi.string(),
     PartyB : Joi.string(),
+    AccountReference: Joi.string(),
+    Requester : Joi.string(),
+    Remarks: Joi.string(),
+    
 
 })
 
