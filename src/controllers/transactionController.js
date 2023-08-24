@@ -9,7 +9,9 @@ import { response } from 'express';
 dotenv.config()
 const B2BTransaction = async (req,res,next)=> { 
 
- console.log(bearerToken)
+ console.log(bearerToken);
+
+
  const token = bearerToken.access_token
  const url = process.env.PAYMENT_URL
  let responseData;
